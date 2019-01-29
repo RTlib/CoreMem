@@ -6,6 +6,7 @@ build
 /bin/
 CoreMem.iml
 out
+.idea
 
 gradle/bintrayUpload.gradle
 gradle/codeformat.eclipse.xml
