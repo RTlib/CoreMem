@@ -3,7 +3,6 @@ package coremem.util.test;
 import static org.junit.Assert.*;
 
 import coremem.util.ResourceHandler;
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 import java.io.File;
@@ -51,8 +50,9 @@ public class ResourceHandlerTests
     @Test
     public void testTwoFilesAreSame()
     {
-        File fRead1 = new File("coremem/util/test/testartifact_jnidispatch.dll");
-        File fRead2 = new File("coremem/util/test/testartifact_jnidispatch.dll");
+        Path path = Paths.get("src/test/java/coremem/util/test/testartifact_jnidispatch.dll");
+        File fRead1 = new File(path.toAbsolutePath().toString());
+        File fRead2 = new File(path.toAbsolutePath().toString());
 
         // Compare with two instance of same file
         assertTrue(mRH.twoFilesAreSame(fRead1,fRead2));

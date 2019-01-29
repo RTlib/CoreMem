@@ -85,9 +85,6 @@ dependencies
 	// BridJ:
 	compile 'com.nativelibs4java:bridj:0.7.0'
 
-	// Commons:
-	compile ('commons-io:commons-io:2.4')                             {transitive= true}
-
 	// JNA:
 	compile group: 'net.java.dev.jna', name: 'jna', version: '4.5.1'
 	compile group: 'net.java.dev.jna', name: 'jna-platform', version: '4.5.1'

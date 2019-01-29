@@ -1,8 +1,9 @@
 package coremem.util;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+
 
 public class ResourceHandler
 {
@@ -12,34 +13,52 @@ public class ResourceHandler
      */
     public boolean twoFilesAreSame(File pCopied, File pRead)
     {
-        boolean result = false;
-        try {
-            result = FileUtils.contentEquals(pCopied, pRead);
-        } catch (IOException e) {
+        // Check if both files exist
+        if (!pCopied.exists() || !pRead.exists())
+            return false;
+
+        // Both file's that are passed are to be of file type and not directory.
+        if (!pCopied.isFile() || !pRead.isFile())
+            return false;
+
+        if (pCopied.length() != pRead.length())
+            return false;
+
+        // Then compare the contents.
+        try (
+                InputStream is1 = new FileInputStream(pCopied);
+                InputStream is2 = new FileInputStream(pRead)
+        )
+        {
+            // Compare byte-by-byte - if performance issues occur solution is buffering
+            int data;
+            while ((data = is1.read()) != -1)
+                if (data != is2.read())
+                    return false;
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
-        return result;
+
+        return true;
     }
 
     /**
      * Method to copy a .dll resource from a jar
      */
-    public File copyDLLfromJarToTempFile(String pRelativePathToFileInJar) throws IOException {
-        File lFile = File.createTempFile("coremem",".dll");
+    public File copyDLLfromJarToTempFile(String pRelativePathToFileInJar) throws IOException
+    {
+        int beginIndex = pRelativePathToFileInJar.lastIndexOf('/');
+        int endIndex = pRelativePathToFileInJar.lastIndexOf(".dll");
+        File lFile = File.createTempFile(pRelativePathToFileInJar.substring(beginIndex, endIndex),".dll");
         lFile.deleteOnExit();
 
         try (
-                InputStream an = getClass().getResourceAsStream(pRelativePathToFileInJar);
-                OutputStream out = new BufferedOutputStream(new FileOutputStream(lFile))
+                InputStream an = getClass().getResourceAsStream(pRelativePathToFileInJar)
         )
         {
-            byte[] buffer = new byte[4096];
-            for (;;) {
-                int nBytes = an.read(buffer);
-                if (nBytes <= 0)
-                    break;
-                out.write(buffer, 0 ,nBytes);
-            }
+            Files.copy(an, lFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception e) {
             e.printStackTrace();
         }
