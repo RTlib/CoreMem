@@ -50,8 +50,8 @@ public class ResourceHandler
     public File copyDLLfromJarToTempFile(String pRelativePathToFileInJar) throws IOException
     {
         int beginIndex = pRelativePathToFileInJar.lastIndexOf('/');
-        int endIndex = pRelativePathToFileInJar.lastIndexOf(".dll");
-        File lFile = File.createTempFile(pRelativePathToFileInJar.substring(beginIndex, endIndex),".dll");
+        int endIndex = pRelativePathToFileInJar.lastIndexOf(".so");
+        File lFile = File.createTempFile(pRelativePathToFileInJar.substring(beginIndex, endIndex),".so");
         lFile.deleteOnExit();
 
         try (
