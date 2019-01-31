@@ -1,4 +1,4 @@
-package coremem.util.test;
+package coremem.test;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;

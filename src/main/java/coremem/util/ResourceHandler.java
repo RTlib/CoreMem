@@ -49,9 +49,12 @@ public class ResourceHandler
      */
     public File copyDLLfromJarToTempFile(String pRelativePathToFileInJar) throws IOException
     {
-        int beginIndex = pRelativePathToFileInJar.lastIndexOf('/');
-        int endIndex = pRelativePathToFileInJar.lastIndexOf(".so");
-        File lFile = File.createTempFile(pRelativePathToFileInJar.substring(beginIndex, endIndex),".so");
+        String lFullFileName = new File(pRelativePathToFileInJar).getName();
+        int lIndex = lFullFileName.lastIndexOf('.');
+        String lFileName = lFullFileName.substring(0, lIndex);
+        String lFileExtension = lFullFileName.substring(lIndex);
+
+        File lFile = File.createTempFile(lFileName, lFileExtension);
         lFile.deleteOnExit();
 
         try (
@@ -64,5 +67,20 @@ public class ResourceHandler
         }
 
         return lFile;
+    }
+
+    /**
+     * Method to load a .dll resource from a jar after copying into a TempFile
+     */
+    public File loadDLLFromJar(String pRelativePathToFileInJar) {
+        File lResultFile = null;
+        try {
+            lResultFile = this.copyDLLfromJarToTempFile(pRelativePathToFileInJar);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.load(lResultFile.getAbsolutePath());
+        return lResultFile;
     }
 }
