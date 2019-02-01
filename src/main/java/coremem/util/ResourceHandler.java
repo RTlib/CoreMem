@@ -47,7 +47,7 @@ public class ResourceHandler
     /**
      * Method to copy a .dll resource from a jar
      */
-    public File copyDLLfromJarToTempFile(String pRelativePathToFileInJar) throws IOException
+    public File copyResourceFromJarToTempFile(String pRelativePathToFileInJar) throws IOException
     {
         String lFullFileName = new File(pRelativePathToFileInJar).getName();
         int lIndex = lFullFileName.lastIndexOf('.');
@@ -72,10 +72,10 @@ public class ResourceHandler
     /**
      * Method to load a .dll resource from a jar after copying into a TempFile
      */
-    public File loadDLLFromJar(String pRelativePathToFileInJar) {
+    public File loadResourceFromJar(String pRelativePathToFileInJar) {
         File lResultFile = null;
         try {
-            lResultFile = this.copyDLLfromJarToTempFile(pRelativePathToFileInJar);
+            lResultFile = this.copyResourceFromJarToTempFile(pRelativePathToFileInJar);
         } catch (IOException e) {
             e.printStackTrace();
         }

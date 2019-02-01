@@ -32,7 +32,7 @@ public class ResourceHandlerTests
     public void testCopyAndLoadDLLFromJar()
     {
         File fCopied = null;
-        fCopied = mRH.loadDLLFromJar("/com/sun/jna/win32-x86-64/jnidispatch.dll");
+        fCopied = mRH.loadResourceFromJar("/com/sun/jna/win32-x86-64/jnidispatch.dll");
         System.out.println("For debug: " + fCopied.getAbsolutePath());
 
         ClassLoader appLoader = ClassLoader.getSystemClassLoader();
@@ -55,7 +55,7 @@ public class ResourceHandlerTests
         // Copy the file from JAR
         File fCopied = null;
         try {
-            fCopied = mRH.copyDLLfromJarToTempFile("/com/sun/jna/win32-x86-64/jnidispatch.dll");
+            fCopied = mRH.copyResourceFromJarToTempFile("/com/sun/jna/win32-x86-64/jnidispatch.dll");
         } catch (IOException e) {
             e.printStackTrace();
         }
