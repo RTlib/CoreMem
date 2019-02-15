@@ -5,11 +5,15 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 
-public class ResourceHandler
+public class NativeLibResourceHandler
 {
 
     /**
      * Simple wrapper function to compare contents of two files
+     *
+     * @param pCopied
+     * @param pRead
+     * @return :result of comparison as boolean
      */
     public boolean twoFilesAreSame(File pCopied, File pRead)
     {
@@ -21,6 +25,7 @@ public class ResourceHandler
         if (!pCopied.isFile() || !pRead.isFile())
             return false;
 
+        // Also they need to have the same length
         if (pCopied.length() != pRead.length())
             return false;
 
@@ -45,9 +50,14 @@ public class ResourceHandler
     }
 
     /**
-     * Method to copy a .dll resource from a jar
+     * Method to copy a .dll resource from a jar into a TempFile
+     *
+     * @param pClass
+     * @param pRelativePathToFileInJar
+     * @return lFile :copied resource file
+     * @throws IOException
      */
-    public File copyResourceFromJarToTempFile(String pRelativePathToFileInJar) throws IOException
+    public File copyResourceFromJarToTempFile(Class pClass, String pRelativePathToFileInJar) throws IOException
     {
         String lFullFileName = new File(pRelativePathToFileInJar).getName();
         int lIndex = lFullFileName.lastIndexOf('.');
@@ -58,11 +68,13 @@ public class ResourceHandler
         lFile.deleteOnExit();
 
         try (
-                InputStream an = getClass().getResourceAsStream(pRelativePathToFileInJar)
+                InputStream an = pClass.getResourceAsStream(pRelativePathToFileInJar)
         )
         {
             Files.copy(an, lFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
 
@@ -71,16 +83,25 @@ public class ResourceHandler
 
     /**
      * Method to load a .dll resource from a jar after copying into a TempFile
+     *
+     * @param pClass
+     * @param pRelativePathToFileInJar
+     * @return lResultFile :loaded resource file
      */
-    public File loadResourceFromJar(String pRelativePathToFileInJar) {
+    public File loadResourceFromJar(Class pClass, String pRelativePathToFileInJar)
+    {
         File lResultFile = null;
-        try {
-            lResultFile = this.copyResourceFromJarToTempFile(pRelativePathToFileInJar);
-        } catch (IOException e) {
+        try
+        {
+            lResultFile = this.copyResourceFromJarToTempFile(pClass, pRelativePathToFileInJar);
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
 
         System.load(lResultFile.getAbsolutePath());
+
         return lResultFile;
     }
 }
