@@ -33,17 +33,25 @@ public class NativeLibResourceHandlerTests
     {
         File fCopied = null;
         fCopied = mRH.loadResourceFromJar(NativeLibResourceHandlerTests.class,"/com/sun/jna/win32-x86-64/jnidispatch.dll");
-        System.out.println("For debug: " + fCopied.getAbsolutePath());
+        try
+        {
+            System.out.println("For debug: " + fCopied.getCanonicalPath());
 
-        ClassLoader appLoader = ClassLoader.getSystemClassLoader();
-        ClassLoader currentLoader = NativeLibResourceHandlerTests.class.getClassLoader();
+            // Get the both system and current classloaders
+            ClassLoader appLoader = ClassLoader.getSystemClassLoader();
+            ClassLoader currentLoader = NativeLibResourceHandlerTests.class.getClassLoader();
 
-        ClassLoader[] loaders = new ClassLoader[] { appLoader, currentLoader };
-        final String[] libraries = ClassScope.getLoadedLibraries(loaders);
+            // Get the list of loaded libraries
+            ClassLoader[] loaders = new ClassLoader[] { appLoader, currentLoader };
+            final String[] libraries = ClassScope.getLoadedLibraries(loaders);
 
-        // Check if it is loaded
-        assertTrue(Arrays.stream(libraries).anyMatch(fCopied.getAbsolutePath()::equals));
-
+            // Check if it is loaded
+            assertTrue(Arrays.stream(libraries).anyMatch(fCopied.getCanonicalPath()::equals));
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**
