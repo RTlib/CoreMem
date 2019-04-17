@@ -31,6 +31,9 @@ public class NativeLibResourceHandlerTests
     @Test
     public void testCopyAndLoadDLLFromJar()
     {
+        if(!System.getProperty("os.name").contains("Windows"))
+            return;
+
         File fCopied = null;
         fCopied = mRH.loadResourceFromJar(NativeLibResourceHandlerTests.class,"/com/sun/jna/win32-x86-64/jnidispatch.dll");
         try
@@ -60,6 +63,9 @@ public class NativeLibResourceHandlerTests
     @Test
     public void testDLLfromJar ()
     {
+        if(!System.getProperty("os.name").contains("Windows"))
+            return;
+
         // Copy the file from JAR
         File fCopied = null;
         try {
@@ -82,6 +88,9 @@ public class NativeLibResourceHandlerTests
     @Test
     public void testTwoFilesAreSame()
     {
+        if(!System.getProperty("os.name").contains("Windows"))
+            return;
+
         Path path = Paths.get("src/test/java/coremem/util/test/testartifact_jnidispatch.dll");
         File fRead1 = new File(path.toAbsolutePath().toString());
         File fRead2 = new File(path.toAbsolutePath().toString());
