@@ -82,6 +82,7 @@ configurations.all {
 
 dependencies
 {
+	
 	// BridJ:
 	compile 'com.nativelibs4java:bridj:0.7.0'
 
