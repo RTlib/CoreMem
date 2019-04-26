@@ -163,7 +163,7 @@ public class ContiguousBuffer implements SizedInBytes
   }
 
   /**
-   * Returns the remaining bytes that can be written from the current position.
+   * Returns the remaining bytes that can be read or written from the current position.
    * 
    * @return remaining bytes
    */
@@ -173,7 +173,7 @@ public class ContiguousBuffer implements SizedInBytes
   }
 
   /**
-   * Returns true if there are enough remaining bytes to read a single byte.
+   * Returns true if there are enough remaining bytes to read/write a single byte.
    * 
    * @return true if at least byte remains
    */
@@ -183,7 +183,7 @@ public class ContiguousBuffer implements SizedInBytes
   }
 
   /**
-   * Returns true if there are enough remaining bytes to read a single char.
+   * Returns true if there are enough remaining bytes to read/write a single char.
    * 
    * @return true if at least char remains
    */
@@ -193,7 +193,7 @@ public class ContiguousBuffer implements SizedInBytes
   }
 
   /**
-   * Returns true if there are enough remaining bytes to read a single short.
+   * Returns true if there are enough remaining bytes to read/write a single short.
    * 
    * @return true if at least short remains
    */
@@ -203,7 +203,7 @@ public class ContiguousBuffer implements SizedInBytes
   }
 
   /**
-   * Returns true if there are enough remaining bytes to read a single int.
+   * Returns true if there are enough remaining bytes to read/write a single int.
    * 
    * @return true if at least int remains
    */
@@ -213,7 +213,7 @@ public class ContiguousBuffer implements SizedInBytes
   }
 
   /**
-   * Returns true if there are enough remaining bytes to read a single long.
+   * Returns true if there are enough remaining bytes to read/write a single long.
    * 
    * @return true if at least long remains
    */
@@ -223,7 +223,7 @@ public class ContiguousBuffer implements SizedInBytes
   }
 
   /**
-   * Returns true if there are enough remaining bytes to read a single float.
+   * Returns true if there are enough remaining bytes to read/write a single float.
    * 
    * @return true if at least float remains
    */
@@ -233,7 +233,7 @@ public class ContiguousBuffer implements SizedInBytes
   }
 
   /**
-   * Returns true if there are enough remaining bytes to read a single double.
+   * Returns true if there are enough remaining bytes to read/write a single double.
    * 
    * @return true if at least double remains
    */
@@ -243,7 +243,7 @@ public class ContiguousBuffer implements SizedInBytes
   }
 
   /**
-   * Returns true if there are pNumberOfBytes remaining bytes to read.
+   * Returns true if there are pNumberOfBytes remaining bytes to read/write.
    * 
    * @param pNumberOfBytes
    *          number of bytes that would remain
