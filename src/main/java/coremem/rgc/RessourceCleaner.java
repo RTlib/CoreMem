@@ -105,6 +105,7 @@ public class RessourceCleaner
       @Override
       public void run()
       {
+        Thread.currentThread().setDaemon(true);
         clean();
       }
     };
