@@ -23,8 +23,6 @@ public class RessourceCleaner
   private static final Executor sExecutor =
                                           Executors.newSingleThreadExecutor();
 
-  private static final ScheduledExecutorService sScheduledExecutor =
-                                                                   Executors.newSingleThreadScheduledExecutor();
 
   private static RessourceCleaner sRessourceCleaner;
 
@@ -105,14 +103,25 @@ public class RessourceCleaner
       @Override
       public void run()
       {
-        Thread.currentThread().setDaemon(true);
-        clean();
+        final long lPeriodInMillis = pUnit.toMillis(pPeriod);
+        while(true)
+        {
+          clean();
+          try
+          {
+            Thread.sleep(lPeriodInMillis);
+          }
+          catch (InterruptedException pE)
+          {
+          }
+        }
       }
     };
-    sScheduledExecutor.scheduleAtFixedRate(lCollector,
-                                           0,
-                                           pPeriod,
-                                           pUnit);
+
+    Thread lThread = new Thread(lCollector, "RGC_Thread");
+    lThread.setDaemon(true);
+    lThread.setPriority(Thread.MIN_PRIORITY);
+    lThread.start();
   }
 
   /**
